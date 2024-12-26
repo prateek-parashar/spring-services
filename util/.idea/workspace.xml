@@ -5,15 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f2f50ec-fbc0-483b-b00f-f7850d2c2419" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../api/src/main/java/se/magnus/api/core/product/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../api/src/main/java/se/magnus/api/core/product/ProductService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../api/src/main/java/se/magnus/api/core/recommendation/Recommendation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../api/src/main/java/se/magnus/api/core/recommendation/RecommendationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../api/src/main/java/se/magnus/api/core/review/Review.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../api/src/main/java/se/magnus/api/core/review/ReviewService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../api/src/main/java/se/magnus/api/exceptions/InvalidInputException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../api/src/main/java/se/magnus/api/exceptions/NotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/se/magnus/microservices/util/http/GlobalControllerExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/se/magnus/microservices/util/http/HttpErrorInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/se/magnus/microservices/util/http/ServiceUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../api/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../api/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/se/magnus/microservices/util/Main.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +30,13 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -44,6 +57,9 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2qkRYuFLQS5SALWre4MWqzJ6ZLL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -71,7 +87,7 @@
       <option name="presentableId" value="Default" />
       <updated>1735204637496</updated>
       <workItem from="1735204638404" duration="51000" />
-      <workItem from="1735204724252" duration="3000" />
+      <workItem from="1735204724252" duration="994000" />
     </task>
     <servers />
   </component>
