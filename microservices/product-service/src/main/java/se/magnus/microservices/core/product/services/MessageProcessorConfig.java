@@ -15,37 +15,42 @@ import java.util.function.Consumer;
 @Configuration
 public class MessageProcessorConfig {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MessageProcessorConfig.class);
-    private final ProductService productService;
+  private static final Logger LOG = LoggerFactory.getLogger(MessageProcessorConfig.class);
 
-    @Autowired
-    public MessageProcessorConfig(ProductService productService) {
-        this.productService = productService;
-    }
+  private final ProductService productService;
 
-    @Bean
-    public Consumer<Event<Integer, Product>> messageProcessor() {
-        return event -> {
-            LOG.info("Message processor event received at: {}", event.getEventCreatedAt());
+  @Autowired
+  public MessageProcessorConfig(ProductService productService) {
+    this.productService = productService;
+  }
 
-            switch (event.getEventType()) {
-                case CREATE:
-                    Product product = event.getData();
-                    LOG.info("Creating product with id: {}", product.getProductId());
-                    productService.createProduct(product).block();
-                    break;
-                case DELETE:
-                    int productId = event.getKey();
-                    LOG.info("Deleting product with id: {}", productId);
-                    productService.deleteProduct(productId).block();
-                    break;
-                default:
-                    String errorMessage = "Unknown event type: " + event.getEventType();
-                    LOG.warn(errorMessage);
-                    throw new EventProcessingException(errorMessage);
-            }
+  @Bean
+  public Consumer<Event<Integer, Product>> messageProcessor() {
+    return event -> {
+      LOG.info("Process message created at {}...", event.getEventCreatedAt());
 
-            LOG.info("Message processor completed at: {}", event.getEventCreatedAt());
-        };
-    }
+      switch (event.getEventType()) {
+
+        case CREATE:
+          Product product = event.getData();
+          LOG.info("Create product with ID: {}", product.getProductId());
+          productService.createProduct(product).block();
+          break;
+
+        case DELETE:
+          int productId = event.getKey();
+          LOG.info("Delete product with ProductID: {}", productId);
+          productService.deleteProduct(productId).block();
+          break;
+
+        default:
+          String errorMessage = "Incorrect event type: " + event.getEventType() + ", expected a CREATE or DELETE event";
+          LOG.warn(errorMessage);
+          throw new EventProcessingException(errorMessage);
+      }
+
+      LOG.info("Message processing done!");
+
+    };
+  }
 }

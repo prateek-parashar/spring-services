@@ -14,18 +14,18 @@ import java.util.Map;
 @Configuration
 public class HealthCheckConfiguration {
 
-    @Autowired
-    ProductCompositeIntegration integration;
+  @Autowired
+  ProductCompositeIntegration integration;
 
-    @Bean
-    ReactiveHealthContributor coreServices() {
+  @Bean
+  ReactiveHealthContributor coreServices() {
 
-        final Map<String, ReactiveHealthIndicator> registry = new LinkedHashMap<>();
+    final Map<String, ReactiveHealthIndicator> registry = new LinkedHashMap<>();
 
-        registry.put("product", () -> integration.getProductHealth());
-        registry.put("recommendation", () -> integration.getRecommendationHealth());
-        registry.put("review", () -> integration.getReviewHealth());
+    registry.put("product", () -> integration.getProductHealth());
+    registry.put("recommendation", () -> integration.getRecommendationHealth());
+    registry.put("review", () -> integration.getReviewHealth());
 
-        return CompositeReactiveHealthContributor.fromMap(registry);
-    }
+    return CompositeReactiveHealthContributor.fromMap(registry);
+  }
 }

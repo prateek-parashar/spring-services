@@ -103,46 +103,6 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
             .subscribeOn(publishEventScheduler).then();
   }
 
-  private Throwable handleException(Throwable ex) {
-
-    if (!(ex instanceof WebClientResponseException)) {
-      LOG.warn("Got a unexpected error: {}, will rethrow it", ex.toString());
-      return ex;
-    }
-
-    WebClientResponseException wcre = (WebClientResponseException) ex;
-
-    switch (HttpStatus.resolve(wcre.getStatusCode().value())) {
-
-      case NOT_FOUND:
-        return new NotFoundException(getErrorMessage(wcre));
-
-      case UNPROCESSABLE_ENTITY:
-        return new InvalidInputException(getErrorMessage(wcre));
-
-      default:
-        LOG.warn("Got an unexpected HTTP error: {}, will rethrow it", wcre.getStatusCode());
-        LOG.warn("Error body: {}", wcre.getResponseBodyAsString());
-        return ex;
-    }
-  }
-
-  private String getErrorMessage(WebClientResponseException ex) {
-    try {
-      return mapper.readValue(ex.getResponseBodyAsString(), HttpErrorInfo.class).getMessage();
-    } catch (IOException ioex) {
-      return ex.getMessage();
-    }
-  }
-
-  private void sendMessage(String bindingName, Event event) {
-    LOG.debug("Sending a {} message to {}", event.getEventType(), bindingName);
-    Message message = MessageBuilder.withPayload(event)
-            .setHeader("partitionKey", event.getKey())
-            .build();
-    streamBridge.send(bindingName, message);
-  }
-
   @Override
   public Mono<Recommendation> createRecommendation(Recommendation body) {
 
@@ -201,6 +161,14 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     return getHealth(productServiceUrl);
   }
 
+  public Mono<Health> getRecommendationHealth() {
+    return getHealth(recommendationServiceUrl);
+  }
+
+  public Mono<Health> getReviewHealth() {
+    return getHealth(reviewServiceUrl);
+  }
+
   private Mono<Health> getHealth(String url) {
     url += "/actuator/health";
     LOG.debug("Will call the Health API on URL: {}", url);
@@ -210,11 +178,43 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
             .log(LOG.getName(), FINE);
   }
 
-  public Mono<Health> getRecommendationHealth() {
-    return getHealth(recommendationServiceUrl);
+  private void sendMessage(String bindingName, Event event) {
+    LOG.debug("Sending a {} message to {}", event.getEventType(), bindingName);
+    Message message = MessageBuilder.withPayload(event)
+            .setHeader("partitionKey", event.getKey())
+            .build();
+    streamBridge.send(bindingName, message);
   }
 
-  public Mono<Health> getReviewHealth() {
-    return getHealth(reviewServiceUrl);
+  private Throwable handleException(Throwable ex) {
+
+    if (!(ex instanceof WebClientResponseException)) {
+      LOG.warn("Got a unexpected error: {}, will rethrow it", ex.toString());
+      return ex;
+    }
+
+    WebClientResponseException wcre = (WebClientResponseException) ex;
+
+    switch (HttpStatus.resolve(wcre.getStatusCode().value())) {
+
+      case NOT_FOUND:
+        return new NotFoundException(getErrorMessage(wcre));
+
+      case UNPROCESSABLE_ENTITY:
+        return new InvalidInputException(getErrorMessage(wcre));
+
+      default:
+        LOG.warn("Got an unexpected HTTP error: {}, will rethrow it", wcre.getStatusCode());
+        LOG.warn("Error body: {}", wcre.getResponseBodyAsString());
+        return ex;
+    }
+  }
+
+  private String getErrorMessage(WebClientResponseException ex) {
+    try {
+      return mapper.readValue(ex.getResponseBodyAsString(), HttpErrorInfo.class).getMessage();
+    } catch (IOException ioex) {
+      return ex.getMessage();
+    }
   }
 }
