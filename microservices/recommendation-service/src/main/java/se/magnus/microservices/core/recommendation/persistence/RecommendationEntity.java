@@ -6,68 +6,85 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "recommendations")
-@CompoundIndex(name = "prod-rec-id", unique = true, def = "{'productId: 1, 'recommendationId: 1}")
+@CompoundIndex(name = "prod-rec-id", unique = true, def = "{'productId': 1, 'recommendationId' : 1}")
 public class RecommendationEntity {
-    @Id
-    private String id;
 
-    @Version
-    private Integer version;
+  @Id
+  private String id;
 
-    private int productId;
-    private int recommendationId;
-    private String author;
-    private String rating;
-    private String content;
+  @Version
+  private Integer version;
 
-    public RecommendationEntity() {
-    }
+  private int productId;
+  private int recommendationId;
+  private String author;
+  private int rating;
+  private String content;
 
-    public RecommendationEntity(int productId, int recommendationId, String author, String rating, String content) {
-        this.productId = productId;
-        this.recommendationId = recommendationId;
-        this.author = author;
-        this.rating = rating;
-        this.content = content;
-    }
+  public RecommendationEntity() {
+  }
 
-    public int getProductId() {
-        return productId;
-    }
+  public RecommendationEntity(int productId, int recommendationId, String author, int rating, String content) {
+    this.productId = productId;
+    this.recommendationId = recommendationId;
+    this.author = author;
+    this.rating = rating;
+    this.content = content;
+  }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public int getRecommendationId() {
-        return recommendationId;
-    }
+  public Integer getVersion() {
+    return version;
+  }
 
-    public void setRecommendationId(int recommendationId) {
-        this.recommendationId = recommendationId;
-    }
+  public int getProductId() {
+    return productId;
+  }
 
-    public String getAuthor() {
-        return author;
-    }
+  public int getRecommendationId() {
+    return recommendationId;
+  }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+  public String getAuthor() {
+    return author;
+  }
 
-    public String getRating() {
-        return rating;
-    }
+  public int getRating() {
+    return rating;
+  }
 
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public void setVersion(Integer version) {
+    this.version = version;
+  }
+
+  public void setProductId(int productId) {
+    this.productId = productId;
+  }
+
+  public void setRecommendationId(int recommendationId) {
+    this.recommendationId = recommendationId;
+  }
+
+  public void setAuthor(String author) {
+    this.author = author;
+  }
+
+  public void setRating(int rating) {
+    this.rating = rating;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+  }
 }

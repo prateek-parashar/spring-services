@@ -8,47 +8,61 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "products")
 public class ProductEntity {
 
-    @Id
-    private String id;
+  @Id private String id;
 
-    @Version
-    private Integer version;
+  @Version private Integer version;
 
-    @Indexed(unique = true)
-    private int productId;
-    private String name;
-    private int weight;
+  @Indexed(unique = true)
+  private int productId;
 
-    public ProductEntity() {
-    }
+  private String name;
+  private int weight;
 
-    public ProductEntity(int productId, String name, int weight) {
-        this.productId = productId;
-        this.name = name;
-        this.weight = weight;
-    }
+  public ProductEntity() {}
 
-    public int getProductId() {
-        return productId;
-    }
+  public ProductEntity(int productId, String name, int weight) {
+    this.productId = productId;
+    this.name = name;
+    this.weight = weight;
+  }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public Integer getVersion() {
+    return version;
+  }
 
-    public int getWeight() {
-        return weight;
-    }
+  public void setVersion(Integer version) {
+    this.version = version;
+  }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
+  public int getProductId() {
+    return productId;
+  }
+
+  public void setProductId(int productId) {
+    this.productId = productId;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public int getWeight() {
+    return weight;
+  }
+
+  public void setWeight(int weight) {
+    this.weight = weight;
+  }
 }
