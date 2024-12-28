@@ -74,9 +74,9 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     this.mapper = mapper;
     this.streamBridge = streamBridge;
 
-    productServiceUrl = "http://" + productServiceHost + ":" + productServicePort;
+      productServiceUrl = "http://" + productServiceHost + ":" + productServicePort;
     recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort;
-    reviewServiceUrl = "http://" + reviewServiceHost + ":" + reviewServicePort;
+      reviewServiceUrl = "http://" + reviewServiceHost + ":" + reviewServicePort;
   }
 
   @Override
@@ -193,7 +193,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
       return ex;
     }
 
-    WebClientResponseException wcre = (WebClientResponseException) ex;
+      WebClientResponseException wcre = (WebClientResponseException) ex;
 
     switch (HttpStatus.resolve(wcre.getStatusCode().value())) {
 

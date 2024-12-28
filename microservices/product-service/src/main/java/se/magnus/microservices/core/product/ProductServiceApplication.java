@@ -23,8 +23,6 @@ import se.magnus.microservices.core.product.persistence.ProductEntity;
 public class ProductServiceApplication {
 
   private static final Logger LOG = LoggerFactory.getLogger(ProductServiceApplication.class);
-  @Autowired
-  ReactiveMongoOperations mongoTemplate;
 
   public static void main(String[] args) {
     ConfigurableApplicationContext ctx = SpringApplication.run(ProductServiceApplication.class, args);
@@ -33,6 +31,9 @@ public class ProductServiceApplication {
     String mongodDbPort = ctx.getEnvironment().getProperty("spring.data.mongodb.port");
     LOG.info("Connected to MongoDb: " + mongodDbHost + ":" + mongodDbPort);
   }
+
+    @Autowired
+    ReactiveMongoOperations mongoTemplate;
 
   @EventListener(ContextRefreshedEvent.class)
   public void initIndicesAfterStartup() {

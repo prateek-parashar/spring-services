@@ -23,8 +23,6 @@ import se.magnus.microservices.core.recommendation.persistence.RecommendationEnt
 public class RecommendationServiceApplication {
 
   private static final Logger LOG = LoggerFactory.getLogger(RecommendationServiceApplication.class);
-  @Autowired
-  ReactiveMongoOperations mongoTemplate;
 
   public static void main(String[] args) {
     ConfigurableApplicationContext ctx = SpringApplication.run(RecommendationServiceApplication.class, args);
@@ -33,6 +31,9 @@ public class RecommendationServiceApplication {
     String mongodDbPort = ctx.getEnvironment().getProperty("spring.data.mongodb.port");
     LOG.info("Connected to MongoDb: " + mongodDbHost + ":" + mongodDbPort);
   }
+
+    @Autowired
+    ReactiveMongoOperations mongoTemplate;
 
   @EventListener(ContextRefreshedEvent.class)
   public void initIndicesAfterStartup() {

@@ -30,16 +30,16 @@ public class ReviewServiceApplication {
     this.taskQueueSize = taskQueueSize;
   }
 
-  public static void main(String[] args) {
-    ConfigurableApplicationContext ctx = SpringApplication.run(ReviewServiceApplication.class, args);
-
-    String mysqlUri = ctx.getEnvironment().getProperty("spring.datasource.url");
-    LOG.info("Connected to MySQL: " + mysqlUri);
-  }
-
   @Bean
   public Scheduler jdbcScheduler() {
     LOG.info("Creates a jdbcScheduler with thread pool size = {}", threadPoolSize);
     return Schedulers.newBoundedElastic(threadPoolSize, taskQueueSize, "jdbc-pool");
   }
+
+    public static void main(String[] args) {
+        ConfigurableApplicationContext ctx = SpringApplication.run(ReviewServiceApplication.class, args);
+
+        String mysqlUri = ctx.getEnvironment().getProperty("spring.datasource.url");
+        LOG.info("Connected to MySQL: " + mysqlUri);
+    }
 }
