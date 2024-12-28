@@ -1,5 +1,12 @@
 package se.magnus.microservices.core.product;
 
+import static java.util.stream.IntStream.rangeClosed;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.data.domain.Sort.Direction.ASC;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import se.magnus.microservices.core.product.persistence.ProductEntity;
 import se.magnus.microservices.core.product.persistence.ProductRepository;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static java.util.stream.IntStream.rangeClosed;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.data.domain.Sort.Direction.ASC;
 
 @DataMongoTest
 class PersistenceTests extends MongoDbTestBase {
@@ -77,13 +76,8 @@ class PersistenceTests extends MongoDbTestBase {
 
   @Test
   void duplicateError() {
-    Optional<ProductEntity> productEntity = repository.findByProductId(savedEntity.getProductId());
-    System.out.println("The entity is " + productEntity);
-    ProductEntity newEntity = new ProductEntity(1, "n", 1);
-    repository.save(newEntity);
-    System.out.println("The saved entity is " + newEntity);
     assertThrows(DuplicateKeyException.class, () -> {
-      ProductEntity entity = new ProductEntity(1, "n", 1);
+      ProductEntity entity = new ProductEntity(savedEntity.getProductId(), "n", 1);
       repository.save(entity);
     });
   }

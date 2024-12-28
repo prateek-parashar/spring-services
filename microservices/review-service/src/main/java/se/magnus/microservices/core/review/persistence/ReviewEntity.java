@@ -3,85 +3,85 @@ package se.magnus.microservices.core.review.persistence;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "reviews")
+@Table(name = "reviews", indexes = { @Index(name = "reviews_unique_idx", unique = true, columnList = "productId,reviewId") })
 public class ReviewEntity {
-    @Id
-    @GeneratedValue
-    private int id;
 
-    @Version
-    private int version;
+  @Id @GeneratedValue
+  private int id;
 
-    private int productId;
-    private int reviewId;
-    private String author;
-    private String subject;
-    private String content;
+  @Version
+  private int version;
 
-    public ReviewEntity() {
-    }
+  private int productId;
+  private int reviewId;
+  private String author;
+  private String subject;
+  private String content;
 
-    public ReviewEntity(int productId, int reviewId, String author, String subject, String content) {
-        this.productId = productId;
-        this.reviewId = reviewId;
-        this.author = author;
-        this.subject = subject;
-        this.content = content;
-    }
+  public ReviewEntity() {
+  }
 
-    public int getId() {
-        return id;
-    }
+  public ReviewEntity(int productId, int reviewId, String author, String subject, String content) {
+    this.productId = productId;
+    this.reviewId = reviewId;
+    this.author = author;
+    this.subject = subject;
+    this.content = content;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public int getVersion() {
-        return version;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setVersion(int version) {
-        this.version = version;
-    }
+  public int getVersion() {
+    return version;
+  }
 
-    public int getProductId() {
-        return productId;
-    }
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
+  public int getProductId() {
+    return productId;
+  }
 
-    public int getReviewId() {
-        return reviewId;
-    }
+  public void setProductId(int productId) {
+    this.productId = productId;
+  }
 
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
-    }
+  public int getReviewId() {
+    return reviewId;
+  }
 
-    public String getAuthor() {
-        return author;
-    }
+  public void setReviewId(int reviewId) {
+    this.reviewId = reviewId;
+  }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+  public String getAuthor() {
+    return author;
+  }
 
-    public String getSubject() {
-        return subject;
-    }
+  public void setAuthor(String author) {
+    this.author = author;
+  }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
+  public String getSubject() {
+    return subject;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+  }
 }

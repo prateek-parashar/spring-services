@@ -1,5 +1,11 @@
 package se.magnus.microservices.core.review;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
+
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +16,6 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.transaction.annotation.Transactional;
 import se.magnus.microservices.core.review.persistence.ReviewEntity;
 import se.magnus.microservices.core.review.persistence.ReviewRepository;
-
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
 
 @DataJpaTest
 @Transactional(propagation = NOT_SUPPORTED)
