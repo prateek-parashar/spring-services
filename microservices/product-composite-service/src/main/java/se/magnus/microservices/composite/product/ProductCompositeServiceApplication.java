@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
@@ -20,7 +22,7 @@ import reactor.core.scheduler.Schedulers;
 @ComponentScan("se.magnus")
 public class ProductCompositeServiceApplication {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ProductCompositeServiceApplication.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProductCompositeServiceApplication.class);
 
     @Value("${api.common.version}")
     String apiVersion;
@@ -44,51 +46,55 @@ public class ProductCompositeServiceApplication {
     String apiContactUrl;
     @Value("${api.common.contact.email}")
     String apiContactEmail;
+    private final Integer threadPoolSize;
+    private final Integer taskQueueSize;
+    @Autowired
+    public ProductCompositeServiceApplication(
+            @Value("${app.threadPoolSize:10}") Integer threadPoolSize,
+            @Value("${app.taskQueueSize:100}") Integer taskQueueSize
+    ) {
+        this.threadPoolSize = threadPoolSize;
+        this.taskQueueSize = taskQueueSize;
+    }
 
-  /**
-   * Will exposed on $HOST:$PORT/swagger-ui.html
-   *
-   * @return the common OpenAPI documentation
-   */
-  @Bean
-  public OpenAPI getOpenApiDocumentation() {
-    return new OpenAPI()
-            .info(new Info().title(apiTitle)
-                    .description(apiDescription)
-                    .version(apiVersion)
-                    .contact(new Contact()
-                            .name(apiContactName)
-                            .url(apiContactUrl)
-                            .email(apiContactEmail))
-                    .termsOfService(apiTermsOfService)
-                    .license(new License()
-                            .name(apiLicense)
-                            .url(apiLicenseUrl)))
-            .externalDocs(new ExternalDocumentation()
-                    .description(apiExternalDocDesc)
-                    .url(apiExternalDocUrl));
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(ProductCompositeServiceApplication.class, args);
+    }
 
-  private final Integer threadPoolSize;
-  private final Integer taskQueueSize;
+    /**
+     * Will exposed on $HOST:$PORT/swagger-ui.html
+     *
+     * @return the common OpenAPI documentation
+     */
+    @Bean
+    public OpenAPI getOpenApiDocumentation() {
+        return new OpenAPI()
+                .info(new Info().title(apiTitle)
+                        .description(apiDescription)
+                        .version(apiVersion)
+                        .contact(new Contact()
+                                .name(apiContactName)
+                                .url(apiContactUrl)
+                                .email(apiContactEmail))
+                        .termsOfService(apiTermsOfService)
+                        .license(new License()
+                                .name(apiLicense)
+                                .url(apiLicenseUrl)))
+                .externalDocs(new ExternalDocumentation()
+                        .description(apiExternalDocDesc)
+                        .url(apiExternalDocUrl));
+    }
 
-  @Autowired
-  public ProductCompositeServiceApplication(
-          @Value("${app.threadPoolSize:10}") Integer threadPoolSize,
-          @Value("${app.taskQueueSize:100}") Integer taskQueueSize
-  ) {
-    this.threadPoolSize = threadPoolSize;
-    this.taskQueueSize = taskQueueSize;
-  }
+    @Bean
+    public Scheduler publishEventScheduler() {
+        LOG.info("Creates a messagingScheduler with connectionPoolSize = {}", threadPoolSize);
+        return Schedulers.newBoundedElastic(threadPoolSize, taskQueueSize, "publish-pool");
+    }
 
-  @Bean
-  public Scheduler publishEventScheduler() {
-    LOG.info("Creates a messagingScheduler with connectionPoolSize = {}", threadPoolSize);
-    return Schedulers.newBoundedElastic(threadPoolSize, taskQueueSize, "publish-pool");
-  }
-
-  public static void main(String[] args) {
-    SpringApplication.run(ProductCompositeServiceApplication.class, args);
-  }
+    @Bean
+    @LoadBalanced
+    public WebClient.Builder loadBalancedWebClientBuilder() {
+        return WebClient.builder();
+    }
 
 }
