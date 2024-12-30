@@ -15,19 +15,11 @@ eureka:
     leaseExpirationDurationInSeconds: 5
 
 spring.cloud.gateway.routes:
-  - id: product-composite-get
-    uri: lb://product-composite
-    predicates:
-      - Path=/lol/{segment}  # Matches /lol/anything
-    filters:
-      - SetPath=/product-composite/{segment}  # Forward with the same segment or empty segment
 
-  - id: product-composite-post
+  - id: product-composite
     uri: lb://product-composite
     predicates:
-      - Path=/lol              # Matches /lol without any segment
-    filters:
-      - SetPath=/product-composite  # Forward with the same segment or empty segment
+      - Path=/product-composite/**
 
   - id: product-composite-swagger-ui
     uri: lb://product-composite
