@@ -32,8 +32,8 @@ public class RecommendationServiceApplication {
     LOG.info("Connected to MongoDb: " + mongodDbHost + ":" + mongodDbPort);
   }
 
-    @Autowired
-    ReactiveMongoOperations mongoTemplate;
+  @Autowired
+  ReactiveMongoOperations mongoTemplate;
 
   @EventListener(ContextRefreshedEvent.class)
   public void initIndicesAfterStartup() {

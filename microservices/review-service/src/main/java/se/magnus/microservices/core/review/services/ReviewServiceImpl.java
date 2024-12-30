@@ -1,5 +1,8 @@
 package se.magnus.microservices.core.review.services;
 
+import static java.util.logging.Level.FINE;
+
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,6 @@ import se.magnus.api.exceptions.InvalidInputException;
 import se.magnus.microservices.core.review.persistence.ReviewEntity;
 import se.magnus.microservices.core.review.persistence.ReviewRepository;
 import se.magnus.util.http.ServiceUtil;
-
-import java.util.List;
-
-import static java.util.logging.Level.FINE;
 
 @RestController
 public class ReviewServiceImpl implements ReviewService {
@@ -48,7 +47,7 @@ public class ReviewServiceImpl implements ReviewService {
       throw new InvalidInputException("Invalid productId: " + body.getProductId());
     }
     return Mono.fromCallable(() -> internalCreateReview(body))
-            .subscribeOn(jdbcScheduler);
+      .subscribeOn(jdbcScheduler);
   }
 
   private Review internalCreateReview(Review body) {
@@ -74,9 +73,9 @@ public class ReviewServiceImpl implements ReviewService {
     LOG.info("Will get reviews for product with id={}", productId);
 
     return Mono.fromCallable(() -> internalGetReviews(productId))
-            .flatMapMany(Flux::fromIterable)
-            .log(LOG.getName(), FINE)
-            .subscribeOn(jdbcScheduler);
+      .flatMapMany(Flux::fromIterable)
+      .log(LOG.getName(), FINE)
+      .subscribeOn(jdbcScheduler);
   }
 
   private List<Review> internalGetReviews(int productId) {

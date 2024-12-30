@@ -1,5 +1,7 @@
 package se.magnus.microservices.core.product.services;
 
+import static java.util.logging.Level.FINE;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,6 @@ import se.magnus.api.exceptions.NotFoundException;
 import se.magnus.microservices.core.product.persistence.ProductEntity;
 import se.magnus.microservices.core.product.persistence.ProductRepository;
 import se.magnus.util.http.ServiceUtil;
-
-import static java.util.logging.Level.FINE;
 
 @RestController
 public class ProductServiceImpl implements ProductService {
@@ -43,11 +43,11 @@ public class ProductServiceImpl implements ProductService {
 
     ProductEntity entity = mapper.apiToEntity(body);
     Mono<Product> newEntity = repository.save(entity)
-            .log(LOG.getName(), FINE)
-            .onErrorMap(
-                    DuplicateKeyException.class,
-                    ex -> new InvalidInputException("Duplicate key, Product Id: " + body.getProductId()))
-            .map(e -> mapper.entityToApi(e));
+      .log(LOG.getName(), FINE)
+      .onErrorMap(
+        DuplicateKeyException.class,
+        ex -> new InvalidInputException("Duplicate key, Product Id: " + body.getProductId()))
+      .map(e -> mapper.entityToApi(e));
 
     return newEntity;
   }
@@ -62,10 +62,10 @@ public class ProductServiceImpl implements ProductService {
     LOG.info("Will get product info for id={}", productId);
 
     return repository.findByProductId(productId)
-            .switchIfEmpty(Mono.error(new NotFoundException("No product found for productId: " + productId)))
-            .log(LOG.getName(), FINE)
-            .map(e -> mapper.entityToApi(e))
-            .map(e -> setServiceAddress(e));
+      .switchIfEmpty(Mono.error(new NotFoundException("No product found for productId: " + productId)))
+      .log(LOG.getName(), FINE)
+      .map(e -> mapper.entityToApi(e))
+      .map(e -> setServiceAddress(e));
   }
 
   @Override

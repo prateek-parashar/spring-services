@@ -1,5 +1,7 @@
 package se.magnus.microservices.core.recommendation.services;
 
+import static java.util.logging.Level.FINE;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,6 @@ import se.magnus.api.exceptions.InvalidInputException;
 import se.magnus.microservices.core.recommendation.persistence.RecommendationEntity;
 import se.magnus.microservices.core.recommendation.persistence.RecommendationRepository;
 import se.magnus.util.http.ServiceUtil;
-
-import static java.util.logging.Level.FINE;
 
 @RestController
 public class RecommendationServiceImpl implements RecommendationService {
@@ -43,11 +43,11 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     RecommendationEntity entity = mapper.apiToEntity(body);
     Mono<Recommendation> newEntity = repository.save(entity)
-            .log(LOG.getName(), FINE)
-            .onErrorMap(
-                    DuplicateKeyException.class,
-                    ex -> new InvalidInputException("Duplicate key, Product Id: " + body.getProductId() + ", Recommendation Id:" + body.getRecommendationId()))
-            .map(e -> mapper.entityToApi(e));
+      .log(LOG.getName(), FINE)
+      .onErrorMap(
+        DuplicateKeyException.class,
+        ex -> new InvalidInputException("Duplicate key, Product Id: " + body.getProductId() + ", Recommendation Id:" + body.getRecommendationId()))
+      .map(e -> mapper.entityToApi(e));
 
     return newEntity;
   }
@@ -62,9 +62,9 @@ public class RecommendationServiceImpl implements RecommendationService {
     LOG.info("Will get recommendations for product with id={}", productId);
 
     return repository.findByProductId(productId)
-            .log(LOG.getName(), FINE)
-            .map(e -> mapper.entityToApi(e))
-            .map(e -> setServiceAddress(e));
+      .log(LOG.getName(), FINE)
+      .map(e -> mapper.entityToApi(e))
+      .map(e -> setServiceAddress(e));
   }
 
   @Override

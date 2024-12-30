@@ -23,8 +23,8 @@ public class ReviewServiceApplication {
 
   @Autowired
   public ReviewServiceApplication(
-          @Value("${app.threadPoolSize:10}") Integer threadPoolSize,
-          @Value("${app.taskQueueSize:100}") Integer taskQueueSize
+    @Value("${app.threadPoolSize:10}") Integer threadPoolSize,
+    @Value("${app.taskQueueSize:100}") Integer taskQueueSize
   ) {
     this.threadPoolSize = threadPoolSize;
     this.taskQueueSize = taskQueueSize;
@@ -36,10 +36,10 @@ public class ReviewServiceApplication {
     return Schedulers.newBoundedElastic(threadPoolSize, taskQueueSize, "jdbc-pool");
   }
 
-    public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(ReviewServiceApplication.class, args);
+  public static void main(String[] args) {
+    ConfigurableApplicationContext ctx = SpringApplication.run(ReviewServiceApplication.class, args);
 
-        String mysqlUri = ctx.getEnvironment().getProperty("spring.datasource.url");
-        LOG.info("Connected to MySQL: " + mysqlUri);
-    }
+    String mysqlUri = ctx.getEnvironment().getProperty("spring.datasource.url");
+    LOG.info("Connected to MySQL: " + mysqlUri);
+  }
 }
