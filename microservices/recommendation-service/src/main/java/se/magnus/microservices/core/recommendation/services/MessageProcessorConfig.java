@@ -1,5 +1,6 @@
 package se.magnus.microservices.core.recommendation.services;
 
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,6 @@ import se.magnus.api.core.recommendation.Recommendation;
 import se.magnus.api.core.recommendation.RecommendationService;
 import se.magnus.api.event.Event;
 import se.magnus.api.exceptions.EventProcessingException;
-
-import java.util.function.Consumer;
 
 @Configuration
 public class MessageProcessorConfig {

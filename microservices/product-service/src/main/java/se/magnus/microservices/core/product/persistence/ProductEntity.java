@@ -1,11 +1,11 @@
 package se.magnus.microservices.core.product.persistence;
 
+import static java.lang.String.format;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import static java.lang.String.format;
 
 @Document(collection = "products")
 public class ProductEntity {
