@@ -13,26 +13,26 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SecurityConfig.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SecurityConfig.class);
 
-    @Bean
-    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeExchange()
-                .pathMatchers("/headerrouting/**").permitAll()
-                .pathMatchers("/actuator/**").permitAll()
-                .pathMatchers("/eureka/**").permitAll()
-                .pathMatchers("/oauth2/**").permitAll()
-                .pathMatchers("/login/**").permitAll()
-                .pathMatchers("/error/**").permitAll()
-                .pathMatchers("/openapi/**").permitAll()
-                .pathMatchers("/webjars/**").permitAll()
-                .anyExchange().authenticated()
-                .and()
-                .oauth2ResourceServer()
-                .jwt();
-        return http.build();
-    }
+  @Bean
+  SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws Exception {
+    http
+      .csrf().disable()
+      .authorizeExchange()
+        .pathMatchers("/headerrouting/**").permitAll()
+        .pathMatchers("/actuator/**").permitAll()
+        .pathMatchers("/eureka/**").permitAll()
+        .pathMatchers("/oauth2/**").permitAll()
+        .pathMatchers("/login/**").permitAll()
+        .pathMatchers("/error/**").permitAll()
+        .pathMatchers("/openapi/**").permitAll()
+        .pathMatchers("/webjars/**").permitAll()
+        .anyExchange().authenticated()
+        .and()
+      .oauth2ResourceServer()
+        .jwt();
+    return http.build();
+  }
 
 }
