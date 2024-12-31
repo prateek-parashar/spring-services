@@ -96,7 +96,6 @@ spring.cloud.stream:
 
 spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
 
-
 resilience4j.timelimiter:
   instances:
     product:
@@ -108,7 +107,7 @@ resilience4j.retry:
       maxAttempts: 3
       waitDuration: 1000
       retryExceptions:
-        - org.springframework.web.reactive.function.client.WebClientResponseException$InternalServerError
+      - org.springframework.web.reactive.function.client.WebClientResponseException$InternalServerError
 
 management.health.circuitbreakers.enabled: true
 
