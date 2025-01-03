@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.core.Is.is;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,7 +35,7 @@ import java.util.Base64;
  *
  * @author Josh Cummings
  */
-@SpringBootTest(properties = {"eureka.client.enabled=false", "spring.cloud.config.enabled=false"})
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false"})
 @AutoConfigureMockMvc
 class OAuth2AuthorizationServerApplicationTests {
 
